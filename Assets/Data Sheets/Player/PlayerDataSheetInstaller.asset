@@ -9,10 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b43f879427099c4c80203e4d5700d22, type: 3}
-  m_Name: PlayerDataSheet
+  m_Script: {fileID: 11500000, guid: c9a459af756048f4388ed9e2077c0da3, type: 3}
+  m_Name: PlayerDataSheetInstaller
   m_EditorClassIdentifier: 
-  _walkSpeed: 3
-  _runSpeed: 6
-  _gravity: -9.81
-  _jumpHeight: 2
+  _playerDataSheet: {fileID: 11400000, guid: 22ceebdccf6073549bb4ccc2b085ec49, type: 2}
