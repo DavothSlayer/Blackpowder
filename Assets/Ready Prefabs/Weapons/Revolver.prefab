@@ -267,6 +267,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2836853584939404643}
+  - component: {fileID: 3026424204105124194}
   m_Layer: 0
   m_Name: Revolver
   m_TagString: Untagged
@@ -292,3 +293,16 @@ Transform:
   - {fileID: 2496386738713265273}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3026424204105124194
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6353042838826401455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85a7cd4180a59454abcf273c0f146f87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _weaponDataSheet: {fileID: 11400000, guid: 7f15e391fb30ad647af8378c3e5c1aeb, type: 2}
