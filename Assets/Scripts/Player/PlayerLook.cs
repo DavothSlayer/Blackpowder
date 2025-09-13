@@ -6,6 +6,7 @@ public class PlayerLook : MonoBehaviour
     [SerializeField]
     private Camera _playerCam;
 
+    // Zenject dependency injection. //
     private SettingsHolder _settings;
 
     [Inject]

@@ -7,6 +7,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private CharacterController _characterController;
 
+    // Zenject dependency injection. //
     private PlayerDataSheet _playerData;
     private SettingsHolder _settings;
 

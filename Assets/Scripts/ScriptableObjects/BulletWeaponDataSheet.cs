@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Projectile Weapon Data Sheet", menuName = "Data Sheets/Create Projectile Weapon Data Sheet")]
-public class ProjectileWeaponDataSheet : BaseWeaponDataSheet
+public class BulletWeaponDataSheet : BaseWeaponDataSheet
 {
     [Header("Weapon Features")]
     [SerializeField]
@@ -10,6 +10,8 @@ public class ProjectileWeaponDataSheet : BaseWeaponDataSheet
     private float _roundsPerSecondAimed;
     [SerializeField]
     private int _maxAmmo;
+    [SerializeField]
+    private int _projectilesPerShot;
 
     [Header("Ballistics")]
     [SerializeField]
@@ -25,6 +27,7 @@ public class ProjectileWeaponDataSheet : BaseWeaponDataSheet
     public float RoundsPerSecondFromHip => _roundsPerSecondFromHip;
     public float RoundsPerSecondAimed => _roundsPerSecondAimed;
     public int MaxAmmo => _maxAmmo;
+    public int ProjectilesPerShot => _projectilesPerShot;
 
     public float ProjectileSpeed => _projectileSpeed;
     public float ProjectileRange => _projectileRange;
