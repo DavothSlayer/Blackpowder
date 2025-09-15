@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public abstract class BaseWeaponDataSheet : ScriptableObject
@@ -6,5 +7,12 @@ public abstract class BaseWeaponDataSheet : ScriptableObject
     [SerializeField]
     private string _weaponName;
     [SerializeField]
+    private WeaponType _weaponType;
+    [SerializeField]
     private GameObject _weaponPrefab;
+}
+
+public enum WeaponType
+{
+    Primary, Secondary, Melee, Throwable
 }
