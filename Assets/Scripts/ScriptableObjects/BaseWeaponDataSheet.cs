@@ -10,6 +10,10 @@ public abstract class BaseWeaponDataSheet : ScriptableObject
     private WeaponType _weaponType;
     [SerializeField]
     private GameObject _weaponPrefab;
+
+    public string WeaponName => _weaponName;
+    public WeaponType WeaponType => _weaponType;
+    public GameObject WeaponPrefab => _weaponPrefab;
 }
 
 public enum WeaponType

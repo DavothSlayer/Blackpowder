@@ -13,9 +13,13 @@ MonoBehaviour:
   m_Name: RevolverDataSheet
   m_EditorClassIdentifier: 
   _weaponName: Revolver
+  _weaponType: 0
   _weaponPrefab: {fileID: 0}
   _roundsPerSecondFromHip: 1.6
   _roundsPerSecondAimed: 3
   _maxAmmo: 6
-  _projectileSpeed: 0
-  _projectileRange: 0
+  _projectilesPerShot: 0
+  _projectileSpeed: 150
+  _projectileRange: 100
+  _projectileSpreadX: 0
+  _projectileSpreadY: 0

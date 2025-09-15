@@ -3,12 +3,10 @@ using Zenject;
 
 public class BulletWeapon : BaseWeapon
 {
-    [Header("Weapon Data")]
-    [SerializeField]
-    private BulletWeaponDataSheet _weaponDataSheet;
-
     [SerializeField]
     private Transform _bulletSpawnPoint;
+
+    private BulletWeaponDataSheet _dataSheet;
 
     private bool _isAiming;
     private int _currentAmmo;
@@ -22,9 +20,18 @@ public class BulletWeapon : BaseWeapon
         _bulletsPool = pool;
     }
 
+    private void Awake() => InitializeWeapon();
+
+    private void InitializeWeapon()
+    {
+        _dataSheet = (BulletWeaponDataSheet)WeaponData;
+    }
+
     public override void PrimaryFunction()
     {
-        for(int i = 0; i < _weaponDataSheet.ProjectilesPerShot; i++)
+        print("Pew!");
+
+        for(int i = 0; i < _dataSheet.ProjectilesPerShot; i++)
         {
             Ray _bulletRay = new(_bulletSpawnPoint.position, _bulletSpawnPoint.forward);
             RaycastHit _bulletHit = new RaycastHit();
@@ -32,13 +39,13 @@ public class BulletWeapon : BaseWeapon
             Bullet _bullet = _bulletsPool.Spawn();
 
             // If it hits something, use the hit position. Else, use a dummy position if the player shoots in the sky for example. //
-            if (Physics.Raycast(_bulletRay, out _bulletHit, _weaponDataSheet.ProjectileRange))
+            if (Physics.Raycast(_bulletRay, out _bulletHit, _dataSheet.ProjectileRange))
             {
                 _bullet.MoveTowardsTargetPos(_bulletSpawnPoint.position, _bulletSpawnPoint.forward, _bulletHit.point);
             }
             else
             {
-                Vector3 _dummyPos = _bulletSpawnPoint.forward * _weaponDataSheet.ProjectileRange;
+                Vector3 _dummyPos = _bulletSpawnPoint.forward * _dataSheet.ProjectileRange;
 
                 _bullet.MoveTowardsTargetPos(_bulletSpawnPoint.position, _bulletSpawnPoint.forward, _dummyPos);
             }
@@ -47,11 +54,11 @@ public class BulletWeapon : BaseWeapon
 
     public override void SecondaryFunction() 
     {
-
+        print("The other pew!");
     }
 
     public void RefillAmmo()
     {
-        _currentAmmo = _weaponDataSheet.MaxAmmo;
+        _currentAmmo = _dataSheet.MaxAmmo;
     }
 }
