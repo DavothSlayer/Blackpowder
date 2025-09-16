@@ -16,7 +16,12 @@ MonoBehaviour:
   _runSpeed: 6
   _gravity: -9.81
   _jumpHeight: 2
+  _maxHealth: 200
+  _maxArmor: 200
   _maxMeleeWeapons: 2
-  _maxCarriableThrowables: 2
-  _maxCarriableMedkits: 1
-  _maxCarriablePowerups: 1
+  _maxUtilityWeapons: 0
+  _maxMedkits: 0
+  _maxPowerups: 0
+  _walkingCameraFOV: 60
+  _runningCameraFOV: 75
+  _perks: []

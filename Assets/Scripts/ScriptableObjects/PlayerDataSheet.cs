@@ -1,36 +1,30 @@
+using System;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Player Data Sheet", menuName = "Data Sheets/Create Player Data Sheet")]
-public class PlayerDataSheet : ScriptableObject
+public class PlayerDataSheet : CharacterDataSheet
 {
-    [Header("Numerical Values")]
+    [Header("Cinematics")]
     [SerializeField]
-    private float _walkSpeed;
+    [Range(60f, 180f)]
+    private float _walkingCameraFOV;
     [SerializeField]
-    private float _runSpeed;
-    [SerializeField]
-    private float _gravity;
-    [SerializeField]
-    private float _jumpHeight;
+    [Range(60f, 180f)]
+    private float _runningCameraFOV;
 
-    [Header("Inventory")]
+    [Header("Perks")]
     [SerializeField]
-    private int _maxMeleeWeapons;
-    [SerializeField]
-    private int _maxThrowables;
-    [SerializeField]
-    private int _maxMedkits;
-    [SerializeField]
-    private int _maxPowerups;
+    private Perk[] _perks;
 
-    // Doing this is a lot more code, but more future proof with more control. //
-    public float WalkSpeed => _walkSpeed;
-    public float RunSpeed => _runSpeed;
-    public float Gravity => _gravity;
-    public float JumpHeight => _jumpHeight;
+    public float WalkingCameraFOV => _walkingCameraFOV;
+    public float RunningCameraFOV => _runningCameraFOV;
 
-    public int MaxMeleeWeapons => _maxMeleeWeapons;
-    public int MaxThrowables => _maxThrowables;
-    public int MaxMedkits => _maxMedkits;
-    public int MaxPowerups => _maxPowerups;
+    public Perk[] Perks => _perks;
+}
+
+[Serializable]
+public class Perk
+{
+    [SerializeField]
+    private string _perkName;
 }

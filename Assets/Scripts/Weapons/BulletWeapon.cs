@@ -6,25 +6,18 @@ public class BulletWeapon : BaseWeapon
     [SerializeField]
     private Transform _bulletSpawnPoint;
 
-    private BulletWeaponDataSheet _dataSheet;
+    private BulletWeaponDataSheet _dataSheet => (BulletWeaponDataSheet)WeaponData;
 
     private bool _isAiming;
     private int _currentAmmo;
 
-    // Zenject dependency injection. //
+    // Zenject dependency injection. -Davoth //
     private Bullet.Pool _bulletsPool;
 
     [Inject]
     public void Construct(Bullet.Pool pool)
     {
         _bulletsPool = pool;
-    }
-
-    private void Awake() => InitializeWeapon();
-
-    private void InitializeWeapon()
-    {
-        _dataSheet = (BulletWeaponDataSheet)WeaponData;
     }
 
     public override void PrimaryFunction()
@@ -38,7 +31,7 @@ public class BulletWeapon : BaseWeapon
 
             Bullet _bullet = _bulletsPool.Spawn();
 
-            // If it hits something, use the hit position. Else, use a dummy position if the player shoots in the sky for example. //
+            // If it hits something, use the hit position. Else, use a dummy position if the player shoots in the sky for example. -Davoth //
             if (Physics.Raycast(_bulletRay, out _bulletHit, _dataSheet.ProjectileRange))
             {
                 _bullet.MoveTowardsTargetPos(_bulletSpawnPoint.position, _bulletSpawnPoint.forward, _bulletHit.point);

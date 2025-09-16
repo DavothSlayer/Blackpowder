@@ -7,20 +7,30 @@ public class PlayerLook : MonoBehaviour
     private Camera _playerCam;
 
     // Zenject dependency injection. //
-    private SettingsHolder _settings;
+    private SettingsHolder _settings;    
+    private PlayerDataSheet _playerDataSheet;
 
     [Inject]
-    public void Construct(SettingsHolder settings)
+    public void Construct(SettingsHolder settings, PlayerDataSheet playerDataSheet)
     {
         _settings = settings;
+        _playerDataSheet = playerDataSheet;
     }
 
     // Lock the cursor and hide it. //
-    private void Awake() => Cursor.lockState = CursorLockMode.Locked;
+    private void Awake() => Initialize();
 
     private void Update()
     {
         CameraLogic();
+        Cinematics();
+    }
+
+    private void Initialize()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+
+        _targetFOV = _playerDataSheet.WalkingCameraFOV;
     }
 
     private float _camLookX;
@@ -37,5 +47,16 @@ public class PlayerLook : MonoBehaviour
         // Rotate only the camera locally with _camLookX, and the whole player with _camLookY. //
         _playerCam.transform.localRotation = Quaternion.Euler(_camLookX, 0f, 0f);
         transform.Rotate(transform.up * _camLookY);
+    }
+
+    private float _targetFOV;
+    private void Cinematics()
+    {
+        // Some kind of smooth transition between the FOVs would be necessary. Right now, fucking horrible. -Davoth //
+        _targetFOV = Input.GetKey(_settings.Data.RunKey) ?
+            Mathf.MoveTowards(_targetFOV, _playerDataSheet.RunningCameraFOV, 15f * Time.deltaTime) :
+            Mathf.MoveTowards(_targetFOV, _playerDataSheet.WalkingCameraFOV, 15f * Time.deltaTime);
+
+        _playerCam.fieldOfView = _targetFOV;
     }
 }

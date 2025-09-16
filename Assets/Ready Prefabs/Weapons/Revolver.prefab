@@ -306,8 +306,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85a7cd4180a59454abcf273c0f146f87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _weaponData: {fileID: 11400000, guid: 7f15e391fb30ad647af8378c3e5c1aeb, type: 2}
-  _weaponDataSheet: {fileID: 11400000, guid: 7f15e391fb30ad647af8378c3e5c1aeb, type: 2}
+  _baseItemDataSheet: {fileID: 11400000, guid: 7f15e391fb30ad647af8378c3e5c1aeb, type: 2}
   _bulletSpawnPoint: {fileID: 9181885729789639812}
 --- !u!1 &9102988998033491739
 GameObject:

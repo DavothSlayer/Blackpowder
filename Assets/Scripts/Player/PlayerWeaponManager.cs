@@ -8,7 +8,7 @@ public class PlayerWeaponManager : MonoBehaviour
 
     private SettingsHolder _settings;
 
-    // The current weapon the player is holding. //
+    // The current weapon the player is holding. -Davoth //
     private BaseWeapon _equippedWeapon;
 
     [Inject]
@@ -19,7 +19,7 @@ public class PlayerWeaponManager : MonoBehaviour
 
     private void Update()
     {
-        // This is bad because Primary Weapon slot might be null. But fuck it for now. //
+        // This is bad because Primary Weapon slot might be null. But fuck it for now. -Davoth //
         HandleWeapon(_playerInventory.PrimaryWeapon);
     }
 

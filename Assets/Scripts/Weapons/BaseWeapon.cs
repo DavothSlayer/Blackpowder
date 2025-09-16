@@ -1,20 +1,14 @@
-using UnityEngine;
-
-public abstract class BaseWeapon : MonoBehaviour
+public class BaseWeapon : BaseItem
 {
-    [Header("Weapon Data")]
-    [SerializeField]
-    private BaseWeaponDataSheet _weaponData;
+    public BaseWeaponDataSheet WeaponData => (BaseWeaponDataSheet)BaseItemDataSheet;
 
-    public BaseWeaponDataSheet WeaponData => _weaponData;
-
-    // For things like shooting a weapon, or swinging an axe. //
+    // For things like shooting a weapon, or swinging an axe. -Davoth //
     public virtual void PrimaryFunction()
     {
 
     }
 
-    // For things like aiming a weapon, or perhaps throwing an axe. //
+    // For things like aiming a weapon, or perhaps throwing an axe. -Davoth //
     public virtual void SecondaryFunction()
     {
 

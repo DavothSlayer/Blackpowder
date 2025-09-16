@@ -1,7 +1,6 @@
-using System.Runtime.CompilerServices;
 using UnityEngine;
 
-public abstract class BaseWeaponDataSheet : ScriptableObject
+public abstract class BaseWeaponDataSheet : BaseItemDataSheet
 {
     [Header("Base Weapon Data")]
     [SerializeField]
@@ -18,5 +17,5 @@ public abstract class BaseWeaponDataSheet : ScriptableObject
 
 public enum WeaponType
 {
-    Primary, Secondary, Melee, Throwable
+    Primary, Secondary, Melee, Utility
 }
