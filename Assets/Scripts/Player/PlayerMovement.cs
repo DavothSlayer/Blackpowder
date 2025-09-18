@@ -22,7 +22,7 @@ public class PlayerMovement : MonoBehaviour
         MovementLogic();
     }
 
-    private Vector3 _moveVector, _gravityVector;
+    private Vector3 _moveVector, _gravityVector, _smoothMoveVector, _refVector;
     private float _currentPlayerSpeed;
     private void MovementLogic()
     {
@@ -33,10 +33,15 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKey(_settings.Data.BackwardKey)) _moveVector -= transform.forward;
         if (Input.GetKey(_settings.Data.StrafeRightKey)) _moveVector += transform.right;
 
-        // Movement logic. Chooses player speed based on Shift key input. //
+        // Chooses player speed based on Shift key input. //
         _currentPlayerSpeed = Input.GetKey(_settings.Data.RunKey) ? _playerData.RunSpeed : _playerData.WalkSpeed;
+
+        // Makes sure the vector magnitude is never greater than 1f. //
         _moveVector.Normalize();
-        _characterController.Move(_moveVector * _currentPlayerSpeed * Time.deltaTime);
+
+        _smoothMoveVector = Vector3.SmoothDamp(_smoothMoveVector, _moveVector, ref _refVector, _playerData.MovementSmoothingTime);
+
+        _characterController.Move(_smoothMoveVector * _currentPlayerSpeed * Time.deltaTime);
 
         // Gravity logic. Keeps the character grounded even if not midair. //
         if (!_characterController.isGrounded) _gravityVector.y += _playerData.Gravity * Time.deltaTime;
@@ -44,9 +49,21 @@ public class PlayerMovement : MonoBehaviour
         _characterController.Move(_gravityVector * Time.deltaTime);
 
         // Jump logic. //
-        if(_characterController.isGrounded && Input.GetKeyDown(_settings.Data.JumpKey))
-        {
-            _gravityVector.y = Mathf.Sqrt(2f * -_playerData.Gravity * _playerData.JumpHeight);
-        }
+        if (_characterController.isGrounded && Input.GetKeyDown(_settings.Data.JumpKey)) Jump();
+    }
+
+    private void Jump()
+    {
+        _gravityVector.y = Mathf.Sqrt(2f * -_playerData.Gravity * _playerData.JumpHeight);
+    }
+
+    private void Crouch()
+    {
+
+    }
+
+    private void Slide()
+    {
+
     }
 }

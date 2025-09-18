@@ -11,7 +11,7 @@ public class SettingsData
     public KeyCode StrafeRightKey = KeyCode.D;
     public KeyCode JumpKey = KeyCode.Space;
     public KeyCode RunKey = KeyCode.LeftShift;
-    public KeyCode CrouchKey = KeyCode.LeftControl;
+    public KeyCode CrouchKey = KeyCode.C;
 
     // Weapon Interaction //
     public KeyCode ShootKey = KeyCode.Mouse0;
