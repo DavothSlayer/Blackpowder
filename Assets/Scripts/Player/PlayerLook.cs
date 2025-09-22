@@ -33,8 +33,7 @@ public class PlayerLook : MonoBehaviour
         _targetFOV = _playerDataSheet.WalkingCameraFOV;
     }
 
-    private float _camLookX;
-    private float _camLookY;
+    private float _camLookX, _camLookY;    
     private void CameraLogic()
     {
         // Limit the up and down axis to -90 & 90 degrees. //
@@ -49,13 +48,13 @@ public class PlayerLook : MonoBehaviour
         transform.Rotate(transform.up * _camLookY);
     }
 
-    private float _targetFOV;
+    private float _targetFOV, _refSmooth;
     private void Cinematics()
     {
         // Some kind of smooth transition between the FOVs would be necessary. Right now, fucking horrible. -Davoth //
         _targetFOV = Input.GetKey(_settings.Data.RunKey) ?
-            Mathf.MoveTowards(_targetFOV, _playerDataSheet.RunningCameraFOV, 15f * Time.deltaTime) :
-            Mathf.MoveTowards(_targetFOV, _playerDataSheet.WalkingCameraFOV, 15f * Time.deltaTime);
+            Mathf.SmoothDamp(_targetFOV, _playerDataSheet.RunningCameraFOV, ref _refSmooth, 0.5f) :
+            Mathf.SmoothDamp(_targetFOV, _playerDataSheet.WalkingCameraFOV, ref _refSmooth, 0.5f);
 
         _playerCam.fieldOfView = _targetFOV;
     }

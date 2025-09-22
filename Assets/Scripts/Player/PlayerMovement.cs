@@ -22,22 +22,27 @@ public class PlayerMovement : MonoBehaviour
         MovementLogic();
     }
 
-    private Vector3 _moveVector, _gravityVector, _smoothMoveVector, _refVector;
+    private Vector3 _moveVector, _jumpVector, _gravityVector, _smoothMoveVector, _refVector;
     private float _currentPlayerSpeed;
     private void MovementLogic()
     {
-        _moveVector = Vector3.zero;
+        if (_characterController.isGrounded)
+        {
+            _moveVector = Vector3.zero;
 
-        if (Input.GetKey(_settings.Data.ForwardKey)) _moveVector += transform.forward;
-        if (Input.GetKey(_settings.Data.StrafeLeftKey)) _moveVector -= transform.right;
-        if (Input.GetKey(_settings.Data.BackwardKey)) _moveVector -= transform.forward;
-        if (Input.GetKey(_settings.Data.StrafeRightKey)) _moveVector += transform.right;
+            if (Input.GetKey(_settings.Data.ForwardKey)) _moveVector += transform.forward;
+            if (Input.GetKey(_settings.Data.StrafeLeftKey)) _moveVector -= transform.right;
+            if (Input.GetKey(_settings.Data.BackwardKey)) _moveVector -= transform.forward;
+            if (Input.GetKey(_settings.Data.StrafeRightKey)) _moveVector += transform.right;
 
-        // Chooses player speed based on Shift key input. //
-        _currentPlayerSpeed = Input.GetKey(_settings.Data.RunKey) ? _playerData.RunSpeed : _playerData.WalkSpeed;
+            // Chooses player speed based on Shift key input. //
+            _currentPlayerSpeed = Input.GetKey(_settings.Data.RunKey) ? _playerData.RunSpeed : _playerData.WalkSpeed;
+        }
 
         // Makes sure the vector magnitude is never greater than 1f. //
         _moveVector.Normalize();
+
+        _moveVector += _jumpVector;
 
         _smoothMoveVector = Vector3.SmoothDamp(_smoothMoveVector, _moveVector, ref _refVector, _playerData.MovementSmoothingTime);
 
@@ -55,6 +60,9 @@ public class PlayerMovement : MonoBehaviour
     private void Jump()
     {
         _gravityVector.y = Mathf.Sqrt(2f * -_playerData.Gravity * _playerData.JumpHeight);
+        //_jumpVector += transform.up * Mathf.Sqrt(2f * -_playerData.Gravity * _playerData.JumpHeight);
+        _jumpVector = transform.forward * _playerData.RunJumpSpeedBoost;
+        _jumpVector = Vector3.zero;
     }
 
     private void Crouch()
