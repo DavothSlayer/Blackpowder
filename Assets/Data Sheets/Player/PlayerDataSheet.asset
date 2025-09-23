@@ -24,11 +24,11 @@ MonoBehaviour:
   _maxPowerups: 0
   _walkingCameraFOV: 60
   _runningCameraFOV: 75
-  _charControlDefaultCenterY: 0
-  _charControlDefaultHeight: 0
-  _charControlCrouchCenterY: 0
-  _charControlCrouchHeight: 0
+  _charControlDefaultCenterY: 1
+  _charControlDefaultHeight: 2
+  _charControlCrouchCenterY: 0.5
+  _charControlCrouchHeight: 1
   _movementSmoothingTime: 0.2
-  _slideSpeedBoost: 1.5
-  _runJumpSpeedBoost: 6
+  _slideSpeedMultiplier: 5
+  _runJumpSpeedMultiplier: 5
   _perks: []

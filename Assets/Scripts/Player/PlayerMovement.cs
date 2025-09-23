@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using Zenject;
 
@@ -22,7 +23,7 @@ public class PlayerMovement : MonoBehaviour
         MovementLogic();
     }
 
-    private Vector3 _moveVector, _jumpVector, _gravityVector, _smoothMoveVector, _refVector;
+    private Vector3 _moveVector, _gravityVector, _smoothMoveVector, _refVector;
     private float _currentPlayerSpeed;
     private void MovementLogic()
     {
@@ -46,39 +47,60 @@ public class PlayerMovement : MonoBehaviour
 
         _characterController.Move(_smoothMoveVector * _currentPlayerSpeed * Time.deltaTime);
 
-        _gravityVector.z = Mathf.Clamp(_gravityVector.z, 0f, _playerData.RunJumpSpeedBoost);
+        _gravityVector.z = Mathf.Clamp(_gravityVector.z, 0f, _playerData.RunJumpSpeedMultiplier);
+        _gravityVector.z += 0.5f * _playerData.Gravity * Time.deltaTime;
 
         // Gravity logic. Keeps the character grounded even if not midair. //
         if (!_characterController.isGrounded)
         {
             _gravityVector.y += _playerData.Gravity * Time.deltaTime;
-            _gravityVector.z += _playerData.Gravity * Time.deltaTime;
         }
         else if(_gravityVector.y < 0f)
         {
             _gravityVector.y = -2f;
         }
 
-            _characterController.Move(transform.TransformDirection(_gravityVector) * Time.deltaTime);
+        _characterController.Move(transform.TransformDirection(_gravityVector) * Time.deltaTime);
 
         // Jump logic. //
         if (_characterController.isGrounded && Input.GetKeyDown(_settings.Data.JumpKey)) Jump();
+
+        Crouch(Input.GetKey(_settings.Data.CrouchKey));
     }
 
     private void Jump()
     {
         _gravityVector.y = Mathf.Sqrt(2f * -_playerData.Gravity * _playerData.JumpHeight);
 
-        if(_currentPlayerSpeed == _playerData.RunSpeed) _gravityVector.z = _playerData.RunJumpSpeedBoost;
+        if(_currentPlayerSpeed == _playerData.RunSpeed) _gravityVector.z = _playerData.RunSpeed * _playerData.RunJumpSpeedMultiplier;
     }
 
-    private void Crouch()
+    private bool _isCrouching;
+    private void Crouch(bool getKey)
     {
+        if (getKey)
+        {
+            if (!_isCrouching)
+            {
+                Slide(_currentPlayerSpeed == _playerData.RunSpeed);
 
+                _isCrouching = true;
+            }
+
+            _characterController.center.Set(0f, _playerData.CharControlCrouchCenterY, 0f);
+            _characterController.height = _playerData.CharControlCrouchHeight;
+        }
+        else
+        {
+            _characterController.center.Set(0f, _playerData.CharControlDefaultCenterY, 0f);
+            _characterController.height = _playerData.CharControlDefaultHeight;
+
+            _isCrouching = false;
+        }
     }
 
-    private void Slide()
+    private void Slide(bool canSlide)
     {
-
+        if(canSlide) _gravityVector.z = _playerData.RunSpeed * _playerData.SlideSpeedMultiplier;
     }
 }

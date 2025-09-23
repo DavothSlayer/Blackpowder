@@ -26,9 +26,9 @@ public class PlayerDataSheet : CharacterDataSheet
     [SerializeField]
     private float _movementSmoothingTime;
     [SerializeField]
-    private float _slideSpeedBoost;
+    private float _slideSpeedMultiplier;
     [SerializeField]
-    private float _runJumpSpeedBoost;
+    private float _runJumpSpeedMultiplier;
 
     [Header("Perks")]
     [SerializeField]
@@ -43,8 +43,8 @@ public class PlayerDataSheet : CharacterDataSheet
     public float CharControlCrouchHeight => _charControlCrouchHeight;
 
     public float MovementSmoothingTime => _movementSmoothingTime;
-    public float SlideSpeedBoost => _slideSpeedBoost;
-    public float RunJumpSpeedBoost => _runJumpSpeedBoost;
+    public float SlideSpeedMultiplier => _slideSpeedMultiplier;
+    public float RunJumpSpeedMultiplier => _runJumpSpeedMultiplier;
 
     public Perk[] Perks => _perks;
 }
