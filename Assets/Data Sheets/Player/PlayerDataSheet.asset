@@ -15,7 +15,7 @@ MonoBehaviour:
   _walkSpeed: 3
   _runSpeed: 6
   _gravity: -9.81
-  _jumpHeight: 2
+  _jumpHeight: 1.2
   _maxHealth: 200
   _maxArmor: 200
   _maxMeleeWeapons: 2
@@ -30,5 +30,5 @@ MonoBehaviour:
   _charControlCrouchHeight: 0
   _movementSmoothingTime: 0.2
   _slideSpeedBoost: 1.5
-  _runJumpSpeedBoost: 2
+  _runJumpSpeedBoost: 6
   _perks: []

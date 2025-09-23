@@ -2,41 +2,24 @@ using UnityEngine;
 
 public class PauseMenu : MonoBehaviour
 {
+    [SerializeField]
+    private GameObject pauseMenuUI;
+    private bool _paused = false;
 
-    public GameObject pauseMenuUI;
-    public bool Paused = false;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    // Hides the Pause Menu on start. Very clever Veeti. -Shad //
+    private void Awake() => pauseMenuUI.SetActive(false);
+
+    private void Update()
     {
-        pauseMenuUI.SetActive(false);
+        if(Input.GetKeyDown(KeyCode.Escape)) TogglePause();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.Escape))
-        {
-            if (pauseMenuUI.activeSelf)
-            {
-                ResumeGame();
-            }
-            else
-            {
-                PauseGame();
-            }
-        }
-    }
+    public void TogglePause()
+    {        
+        _paused = !_paused; // Set the boolean to its opposite value. Imagine like *-1. -Shad //
+        pauseMenuUI.SetActive(_paused); // Feed the _paused boolean directly to the method. -Shad //
+        Time.timeScale = _paused ? 0f : 1f; // Is _paused? Then set to 0f, else set to 1f. -Shad //
 
-    public void PauseGame()
-    {
-        Paused = true;
-        pauseMenuUI.SetActive(true);
-        Time.timeScale = 0f; // Freeze the game
-    }
-    public void ResumeGame()
-    {
-        Paused = false;
-        pauseMenuUI.SetActive(false);
-        Time.timeScale = 1f; // Resume the game
+        Cursor.lockState = _paused ? CursorLockMode.None : CursorLockMode.Locked; // Is _paused? Then free the cursor, else lock it. -Shad //
     }
 }

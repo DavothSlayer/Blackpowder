@@ -42,16 +42,24 @@ public class PlayerMovement : MonoBehaviour
         // Makes sure the vector magnitude is never greater than 1f. //
         _moveVector.Normalize();
 
-        _moveVector += _jumpVector;
-
         _smoothMoveVector = Vector3.SmoothDamp(_smoothMoveVector, _moveVector, ref _refVector, _playerData.MovementSmoothingTime);
 
         _characterController.Move(_smoothMoveVector * _currentPlayerSpeed * Time.deltaTime);
 
+        _gravityVector.z = Mathf.Clamp(_gravityVector.z, 0f, _playerData.RunJumpSpeedBoost);
+
         // Gravity logic. Keeps the character grounded even if not midair. //
-        if (!_characterController.isGrounded) _gravityVector.y += _playerData.Gravity * Time.deltaTime;
-        else if (_gravityVector.y < 0f) _gravityVector.y = -2f;
-        _characterController.Move(_gravityVector * Time.deltaTime);
+        if (!_characterController.isGrounded)
+        {
+            _gravityVector.y += _playerData.Gravity * Time.deltaTime;
+            _gravityVector.z += _playerData.Gravity * Time.deltaTime;
+        }
+        else if(_gravityVector.y < 0f)
+        {
+            _gravityVector.y = -2f;
+        }
+
+            _characterController.Move(transform.TransformDirection(_gravityVector) * Time.deltaTime);
 
         // Jump logic. //
         if (_characterController.isGrounded && Input.GetKeyDown(_settings.Data.JumpKey)) Jump();
@@ -60,9 +68,8 @@ public class PlayerMovement : MonoBehaviour
     private void Jump()
     {
         _gravityVector.y = Mathf.Sqrt(2f * -_playerData.Gravity * _playerData.JumpHeight);
-        //_jumpVector += transform.up * Mathf.Sqrt(2f * -_playerData.Gravity * _playerData.JumpHeight);
-        _jumpVector = transform.forward * _playerData.RunJumpSpeedBoost;
-        _jumpVector = Vector3.zero;
+
+        if(_currentPlayerSpeed == _playerData.RunSpeed) _gravityVector.z = _playerData.RunJumpSpeedBoost;
     }
 
     private void Crouch()
