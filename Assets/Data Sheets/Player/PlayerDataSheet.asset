@@ -19,9 +19,9 @@ MonoBehaviour:
   _maxHealth: 200
   _maxArmor: 200
   _maxMeleeWeapons: 2
-  _maxUtilityWeapons: 0
-  _maxMedkits: 0
-  _maxPowerups: 0
+  _maxUtilityWeapons: 2
+  _maxMedkits: 1
+  _maxPowerups: 1
   _walkingCameraFOV: 60
   _runningCameraFOV: 75
   _charControlDefaultCenterY: 1

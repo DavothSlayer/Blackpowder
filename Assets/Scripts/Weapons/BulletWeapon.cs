@@ -34,13 +34,13 @@ public class BulletWeapon : BaseWeapon
             // If it hits something, use the hit position. Else, use a dummy position if the player shoots in the sky for example. -Davoth //
             if (Physics.Raycast(_bulletRay, out _bulletHit, _dataSheet.ProjectileRange))
             {
-                _bullet.MoveTowardsTargetPos(_bulletSpawnPoint.position, _bulletSpawnPoint.forward, _bulletHit.point);
+                _bullet.Fire(_bulletSpawnPoint.position, _bulletSpawnPoint.forward, _bulletHit.point);
             }
             else
             {
                 Vector3 _dummyPos = _bulletSpawnPoint.forward * _dataSheet.ProjectileRange;
 
-                _bullet.MoveTowardsTargetPos(_bulletSpawnPoint.position, _bulletSpawnPoint.forward, _dummyPos);
+                _bullet.Fire(_bulletSpawnPoint.position, _bulletSpawnPoint.forward, _dummyPos);
             }
         }
     }
