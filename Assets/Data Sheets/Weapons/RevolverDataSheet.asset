@@ -20,7 +20,7 @@ MonoBehaviour:
   _roundsPerSecondAimed: 3
   _maxAmmo: 6
   _projectilesPerShot: 1
-  _projectileSpeed: 150
+  _projectileSpeed: 300
   _projectileRange: 100
   _projectileSpreadX: 0
   _projectileSpreadY: 0

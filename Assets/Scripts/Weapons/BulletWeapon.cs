@@ -29,18 +29,18 @@ public class BulletWeapon : BaseWeapon
             Ray _bulletRay = new(_bulletSpawnPoint.position, _bulletSpawnPoint.forward);
             RaycastHit _bulletHit = new RaycastHit();
 
-            Bullet _bullet = _bulletsPool.Spawn();
+            var _bullet = _bulletsPool.Spawn();
 
             // If it hits something, use the hit position. Else, use a dummy position if the player shoots in the sky for example. -Davoth //
             if (Physics.Raycast(_bulletRay, out _bulletHit, _dataSheet.ProjectileRange))
             {
-                _bullet.Fire(_bulletSpawnPoint.position, _bulletSpawnPoint.forward, _bulletHit.point);
+                _bullet.Initialize(_bulletSpawnPoint.position, _bulletSpawnPoint.forward, _bulletHit.point, _dataSheet);
             }
             else
             {
-                Vector3 _dummyPos = _bulletSpawnPoint.forward * _dataSheet.ProjectileRange;
+                Vector3 _dummyPos = _bulletSpawnPoint.position + _bulletSpawnPoint.forward * _dataSheet.ProjectileRange;
 
-                _bullet.Fire(_bulletSpawnPoint.position, _bulletSpawnPoint.forward, _dummyPos);
+                _bullet.Initialize(_bulletSpawnPoint.position, _bulletSpawnPoint.forward, _dummyPos, _dataSheet);
             }
         }
     }

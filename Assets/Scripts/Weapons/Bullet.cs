@@ -1,4 +1,3 @@
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using UnityEngine;
 using Zenject;
@@ -17,13 +16,13 @@ public class Bullet : MonoBehaviour
         _pool = pool;
     }
 
-    public void Fire(Vector3 startPos, Vector3 direction, Vector3 targetPos)
+    public void Initialize(Vector3 startPos, Vector3 direction, Vector3 targetPos, BulletWeaponDataSheet bulletWeaponData)
     {
         // This is purely FX. It moves the bullet with it's "tracer" to the target pos. -Shad //
-        _ = MoveTowardsTargetPos(startPos, direction, targetPos);
+        _ = MoveTowardsTargetPos(startPos, direction, targetPos, bulletWeaponData);
     }
 
-    private async Task MoveTowardsTargetPos(Vector3 startPos, Vector3 direction, Vector3 targetPos)
+    private async Task MoveTowardsTargetPos(Vector3 startPos, Vector3 direction, Vector3 targetPos, BulletWeaponDataSheet bulletWeaponData)
     {
         // Setup the bullet to start from the muzzle. -Shad //
         transform.position = startPos;
@@ -31,7 +30,7 @@ public class Bullet : MonoBehaviour
 
         // Calculate some values. -Shad //
         float distance = Vector3.Distance(startPos, targetPos);
-        float travelTime = distance / 250f;
+        float travelTime = distance / bulletWeaponData.ProjectileSpeed;
         float elapsed = 0f;
 
         // Setup a timer for the actual movement. -Shad //
