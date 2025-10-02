@@ -1,57 +1,54 @@
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using UnityEngine;
-using Zenject;
 
-public class Bullet : MonoBehaviour
+public class Bullet : MonoBehaviour, IPoolable
 {
     [SerializeField]
     private TrailRenderer _trail;
 
-    private Pool _pool;
+    private BasePool<Bullet> _pool;
 
-    // Zenject dependency injection. //
-    [Inject]
-    public void Construct(Pool pool)
+    public void OnSpawned()
     {
-        _pool = pool;
+        _trail.Clear();
+    }
+    
+    public void OnDespawned()
+    {
+        transform.position = Vector3.zero;
+        transform.rotation = Quaternion.identity;
     }
 
-    public void Fire(Vector3 startPos, Vector3 direction, Vector3 targetPos)
+    public void SetPool<T>(BasePool<T> pool) where T : Component, IPoolable
+    {
+        _pool = pool as BasePool<Bullet>;
+    }
+
+    public void Fire(Vector3 targetPos, BulletWeaponDataSheet dataSheet)
     {
         // This is purely FX. It moves the bullet with it's "tracer" to the target pos. -Shad //
-        _ = MoveTowardsTargetPos(startPos, direction, targetPos);
+        _ = MoveTowardsTargetPos(targetPos, dataSheet);
     }
 
-    private async Task MoveTowardsTargetPos(Vector3 startPos, Vector3 direction, Vector3 targetPos)
+    private async Task MoveTowardsTargetPos(Vector3 targetPos, BulletWeaponDataSheet dataSheet)
     {
-        // Setup the bullet to start from the muzzle. -Shad //
-        transform.position = startPos;
-        transform.rotation = Quaternion.Euler(direction);
+        Vector3 startPos = transform.position;
 
         // Calculate some values. -Shad //
         float distance = Vector3.Distance(startPos, targetPos);
-        float travelTime = distance / 250f;
-        float elapsed = 0f;
+        float travelTime = distance / dataSheet.ProjectileSpeed;
+        float elapsedTime = 0f;
 
         // Setup a timer for the actual movement. -Shad //
-        while (elapsed < travelTime)
+        while (elapsedTime < 1f)
         {
-            float t = elapsed / travelTime;
-            transform.position = Vector3.MoveTowards(startPos, targetPos, t);
+            transform.position = Vector3.Lerp(startPos, targetPos, elapsedTime);
             await Task.Yield();
-            elapsed += Time.deltaTime;
+            elapsedTime += Time.deltaTime * dataSheet.ProjectileSpeed;
         }
-
-        // After the timer while loop, this is just a safety. -Shad //
-        transform.position = targetPos;
-
-        // Wait until trail fully fades. -Shad //
-        if (_trail != null) await Task.Delay((int)(_trail.time * 1000f));
 
         // Return bullet to the pool. -Shad //
         _pool.Despawn(this);
     }
-
-    public class Pool : MonoMemoryPool<Bullet> { }
 }

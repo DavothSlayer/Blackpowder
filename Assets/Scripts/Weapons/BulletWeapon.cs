@@ -5,19 +5,20 @@ public class BulletWeapon : BaseWeapon
 {
     [SerializeField]
     private Transform _bulletSpawnPoint;
+    [SerializeField]
+    private LayerMask _raycastLayers;
+
+    private BulletPool _bulletPool;
 
     private BulletWeaponDataSheet _dataSheet => (BulletWeaponDataSheet)WeaponData;
 
     private bool _isAiming;
     private int _currentAmmo;
 
-    // Zenject dependency injection. -Davoth //
-    private Bullet.Pool _bulletsPool;
-
     [Inject]
-    public void Construct(Bullet.Pool pool)
+    public void Construct(BulletPool bulletPool)
     {
-        _bulletsPool = pool;
+        _bulletPool = bulletPool;
     }
 
     public override void PrimaryFunction()
@@ -26,21 +27,19 @@ public class BulletWeapon : BaseWeapon
 
         for(int i = 0; i < _dataSheet.ProjectilesPerShot; i++)
         {
-            Ray _bulletRay = new(_bulletSpawnPoint.position, _bulletSpawnPoint.forward);
-            RaycastHit _bulletHit = new RaycastHit();
+            Ray bulletRay = new(_bulletSpawnPoint.position, _bulletSpawnPoint.forward);
+            RaycastHit bulletHit = new RaycastHit();
 
-            Bullet _bullet = _bulletsPool.Spawn();
+            Bullet bullet = _bulletPool.Spawn(_bulletSpawnPoint.position, _bulletSpawnPoint.rotation);
 
             // If it hits something, use the hit position. Else, use a dummy position if the player shoots in the sky for example. -Davoth //
-            if (Physics.Raycast(_bulletRay, out _bulletHit, _dataSheet.ProjectileRange))
+            if (Physics.Raycast(bulletRay, out bulletHit, _dataSheet.ProjectileRange, _raycastLayers))
             {
-                _bullet.Fire(_bulletSpawnPoint.position, _bulletSpawnPoint.forward, _bulletHit.point);
+                bullet.Fire(bulletHit.point, _dataSheet);
             }
             else
             {
-                Vector3 _dummyPos = _bulletSpawnPoint.forward * _dataSheet.ProjectileRange;
-
-                _bullet.Fire(_bulletSpawnPoint.position, _bulletSpawnPoint.forward, _dummyPos);
+                bullet.Fire(_bulletSpawnPoint.forward * _dataSheet.ProjectileRange, _dataSheet);
             }
         }
     }
